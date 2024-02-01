@@ -33,10 +33,19 @@ public:
 // Your implementation here
 template <typename T>
 StackArrayLinear<T>::StackArrayLinear(){
+    length = 1;
+    size = 0;
+    data = new T[1];
 }
 
 template <typename T>
 StackArrayLinear<T>::~StackArrayLinear(){
+    if(data != nullptr){
+        delete [] data;
+    }
+    data = nullptr;
+    size = 0;
+    length = 0;
 }
 
 template <typename T>
