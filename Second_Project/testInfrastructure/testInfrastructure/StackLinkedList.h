@@ -8,8 +8,8 @@ public:
     T data;
     Node<T>* next;
 
-    Node(T data_1){
-        data = data_1;
+    Node(T data_node){
+        data = data_node;
     }
 };
 
@@ -42,10 +42,8 @@ public:
 // Your implementation here
 template <typename T>
 StackLinkedList<T>::StackLinkedList(){
-    Node<T>* node_1 = new Node<T>();
-    node_1 = head;
-    node_1->next = nullptr;
-    length = 1;
+    head = nullptr;
+    length = 0;
 }
 
 template <typename T>
@@ -60,11 +58,13 @@ StackLinkedList<T>::~StackLinkedList(){
     if(head != nullptr){
         head = nullptr;
     }
+    length = 0;
 }
 
 template <typename T>
 StackLinkedList<T>::StackLinkedList(const StackLinkedList& other) {
     Node<T>* current = other.head;
+    length = other.length;
     Node<T>* prev_node;
     int count = 1;
     while (current != nullptr){
@@ -72,10 +72,12 @@ StackLinkedList<T>::StackLinkedList(const StackLinkedList& other) {
             Node<T>* curr_node = new Node<T>(current->data);
             head = curr_node;
             prev_node = curr_node;
+            curr_node->next = nullptr;
         }else{
             Node<T>* curr_node = new Node<T>(current->data);
             prev_node->next = curr_node;
             prev_node = curr_node;
+            curr_node->next = nullptr;
         }
         Node<T>* next = current->next;
         current = next;
@@ -91,7 +93,7 @@ StackLinkedList<T>& StackLinkedList<T>::operator=(const StackLinkedList& other) 
     Node<T>* current = head;
 
     while (current != nullptr){
-        Node* next = current->next;
+        Node<T>* next = current->next;
         delete current;
         current = next;
     }
@@ -104,15 +106,18 @@ StackLinkedList<T>& StackLinkedList<T>::operator=(const StackLinkedList& other) 
             Node<T>* curr_node = new Node<T>(current->data);
             head = curr_node;
             prev_node = curr_node;
+            curr_node->next = nullptr;
         }else{
             Node<T>* curr_node = new Node<T>(current->data);
             prev_node->next = curr_node;
             prev_node = curr_node;
+            curr_node->next = nullptr;
         }
         Node<T>* next = current->next;
         current = next;
         count++;
     }
+    length = other.length;
 
     return *this;
 
@@ -129,29 +134,13 @@ bool StackLinkedList<T>::isEmpty(){
 
 template <typename T>
 int StackLinkedList<T>::size(){
-    Node<T>* current = head;
-    int count = 0;
-    while (current != nullptr){
-        Node<T>* next = current->next;
-        current = next;
-        count++;
-    }
-    return count;
+    return length;
 }
 
 template <typename T>
 T& StackLinkedList<T>::top(){
     if(!isEmpty()){
-        Node<T>* current = head;
-        Node<T>* prev_node;
-        int count = 0;
-        while (current != nullptr){
-            Node<T>* next = current->next;
-            prev_node = current;
-            current = next;
-            count++;
-        }
-        return prev_node->data;
+        return head->data;
     }else{
         throw std::out_of_range("The list is empty");
     }
@@ -160,23 +149,11 @@ T& StackLinkedList<T>::top(){
 template <typename T>
 T StackLinkedList<T>::pop(){
     if(!isEmpty()){
-        Node<T>* current = head;
-        Node<T>* prev_node_2 = nullptr;
-        Node<T>* prev_node = nullptr;
-        int count = 0;
-        while (current != nullptr){
-            Node<T>* next = current->next;
-            prev_node_2 = prev_node;
-            prev_node = current;
-            current = next;
-            count++;
-        }
-        T data_node = prev_node->data;
-        if(prev_node_2 != nullptr){
-            prev_node_2->next = nullptr;
-        }
-        delete prev_node;
-
+        Node<T>* temp = head;
+        T data_node = head->data;
+        head = temp->next;
+        delete temp;
+        length--;
         return data_node;
     }else{
         throw std::out_of_range("The list is empty");
@@ -185,24 +162,17 @@ T StackLinkedList<T>::pop(){
 
 template <typename T>
 void StackLinkedList<T>::push(const T& e){
-    if(!isEmpty()){
+    if(isEmpty() == false){
         Node<T>* current = head;
-        Node<T>* prev_node = nullptr;
-        int count = 0;
-        while (current != nullptr){
-            Node<T>* next = current->next;
-            prev_node = current;
-            current = next;
-            count++;
-        }
-        Node<T>* new_node = new Node<T>(e);
-        prev_node->next = new_node;
-        new_node->next = nullptr;
+        Node<T>* add_node = new Node<T>(e);
+        add_node->next = current;
+        head = add_node;
     }else{
         Node<T>* new_node = new Node<T>(e);
         new_node->next = nullptr;
         head = new_node;
     }
+    length++;
 }
 
 
