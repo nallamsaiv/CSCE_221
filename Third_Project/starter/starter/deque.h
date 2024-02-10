@@ -55,7 +55,7 @@ template <class Type>
 Deque<Type>::Deque(const Deque& other) {
 	Node<Type>* current = other.firstNode;
     s = other.s;
-    Node<Type>* prev_node;
+    Node<Type>* prev_node = nullptr;
     int count = 1;
     while (current != nullptr){
 		Node<Type>* curr_node = new Node<Type>(current->getData());
@@ -90,8 +90,9 @@ Deque<Type>& Deque<Type>::operator=(const Deque& other) {
     }
 
 	current = other.firstNode;
-    Node<Type>* prev_node;
+    Node<Type>* prev_node = nullptr;
     int count = 1;
+    s = other.s;
     while (current != nullptr){
 		Node<Type>* curr_node = new Node<Type>(current->getData());
         if(count == 1){
@@ -109,7 +110,6 @@ Deque<Type>& Deque<Type>::operator=(const Deque& other) {
         current = next;
         count++;
     }
-    s = other.s;
 
 	return *this;
 }

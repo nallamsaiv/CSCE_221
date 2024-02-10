@@ -32,10 +32,23 @@ int main() {
         q.insertLast(3);
         
         // Now the deque should be [1, 2, 3]
+        int x = q.removeFirst();
+        cout << x << endl;
+        int y = q.removeLast();
+        cout << y << endl;
+        cout << q.first() << " " << q.last() << endl;
+
+        Deque<int> r = q;
+        r.insertLast(1);
+        r.insertLast(2);
+        r.insertLast(3);
+        cout << r.first() << " " << r.last() << " " << r.size() << endl;
+
+        q = r;
         
-        if (q.size() != 3) {
+        if (q.size() != 4) {
             cout << "Test insertLast failed: Incorrect size" << endl;
-        } else if (q.first() != 1 || q.last() != 3) {
+        } else if (q.first() != 2 || q.last() != 3) {
             cout << "Test insertLast failed: Incorrect elements" << endl;
         } else {
             cout << "Test insertLast passed" << endl;
