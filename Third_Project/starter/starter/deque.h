@@ -185,6 +185,7 @@ Type Deque<Type>::removeFirst() {
     	firstNode = temp->getNext();
     	delete temp;
 		lastNode = nullptr;
+		firstNode = nullptr;
     	s--;
     	return data_node;
 	}else{
@@ -209,6 +210,7 @@ Type Deque<Type>::removeLast() {
     	lastNode = temp->getPrev();
     	delete temp;
 		firstNode = nullptr;
+		lastNode = nullptr;
     	s--;
     	return data_node;
 	}else{
